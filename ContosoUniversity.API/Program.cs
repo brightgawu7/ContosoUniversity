@@ -1,3 +1,4 @@
+using ContosoUniversity.API.Configurations;
 using ContosoUniversity.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,11 +16,11 @@ builder.Services.AddDbContext<ContosoUniversityDbContext>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-	app.UseSwagger();
-	app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.AddGlobalErrorHandler();
+
 
 app.UseHttpsRedirection();
 
