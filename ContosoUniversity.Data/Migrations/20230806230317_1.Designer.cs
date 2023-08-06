@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContosoUniversity.Data.Migrations
 {
     [DbContext(typeof(ContosoUniversityDbContext))]
-    [Migration("20230805220837_Initail1")]
-    partial class Initail1
+    [Migration("20230806230317_1")]
+    partial class _1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,11 +36,17 @@ namespace ContosoUniversity.Data.Migrations
                     b.Property<int>("Credits")
                         .HasColumnType("int");
 
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("CourseId");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Course", (string)null);
 
@@ -49,43 +55,128 @@ namespace ContosoUniversity.Data.Migrations
                         {
                             CourseId = 1,
                             Credits = 3,
+                            DepartmentId = 3,
                             Title = "Chemistry"
                         },
                         new
                         {
                             CourseId = 2,
                             Credits = 3,
+                            DepartmentId = 4,
                             Title = "Microeconomics"
                         },
                         new
                         {
                             CourseId = 3,
                             Credits = 3,
+                            DepartmentId = 4,
                             Title = "Macroeconomics"
                         },
                         new
                         {
                             CourseId = 4,
                             Credits = 4,
+                            DepartmentId = 2,
                             Title = "Calculus"
                         },
                         new
                         {
                             CourseId = 5,
                             Credits = 4,
+                            DepartmentId = 2,
                             Title = "Trigonometry"
                         },
                         new
                         {
                             CourseId = 6,
                             Credits = 3,
+                            DepartmentId = 3,
                             Title = "Composition"
                         },
                         new
                         {
                             CourseId = 7,
                             Credits = 4,
+                            DepartmentId = 3,
                             Title = "Literature"
+                        });
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Domain.Models.CourseAssignment", b =>
+                {
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InstructorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CourseId", "InstructorId");
+
+                    b.HasIndex("InstructorId");
+
+                    b.ToTable("CourseAssignment", (string)null);
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Domain.Models.Department", b =>
+                {
+                    b.Property<int>("DepartmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"));
+
+                    b.Property<decimal>("Budget")
+                        .HasColumnType("money");
+
+                    b.Property<int?>("InstructorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("DepartmentId");
+
+                    b.HasIndex("InstructorId");
+
+                    b.ToTable("Department", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            DepartmentId = 1,
+                            Budget = 350000m,
+                            InstructorId = 1,
+                            Name = "English",
+                            StartDate = new DateTime(2007, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            DepartmentId = 2,
+                            Budget = 100000m,
+                            InstructorId = 2,
+                            Name = "Mathematics",
+                            StartDate = new DateTime(2007, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            DepartmentId = 3,
+                            Budget = 350000m,
+                            InstructorId = 4,
+                            Name = "Engineering",
+                            StartDate = new DateTime(2007, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            DepartmentId = 4,
+                            Budget = 100000m,
+                            InstructorId = 5,
+                            Name = "Economics",
+                            StartDate = new DateTime(2007, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -198,6 +289,102 @@ namespace ContosoUniversity.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ContosoUniversity.Domain.Models.Instructor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FirstMidName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("FirstName");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Instructor", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstMidName = "Kim",
+                            HireDate = new DateTime(1995, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "Abercrombie"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FirstMidName = "Fadi",
+                            HireDate = new DateTime(2002, 7, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "Fakhouri"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FirstMidName = "Roger",
+                            HireDate = new DateTime(1998, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "Harui"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FirstMidName = "Candace",
+                            HireDate = new DateTime(2001, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "Kapoor"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            FirstMidName = "Roger",
+                            HireDate = new DateTime(2004, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "Zheng"
+                        });
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Domain.Models.OfficeAssignment", b =>
+                {
+                    b.Property<int>("InstructorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("InstructorId");
+
+                    b.ToTable("OfficeAssignment", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            InstructorId = 2,
+                            Location = "Smith 17"
+                        },
+                        new
+                        {
+                            InstructorId = 3,
+                            Location = "Gowan 27"
+                        },
+                        new
+                        {
+                            InstructorId = 4,
+                            Location = "Thompson 304"
+                        });
+                });
+
             modelBuilder.Entity("ContosoUniversity.Domain.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -211,11 +398,14 @@ namespace ContosoUniversity.Data.Migrations
 
                     b.Property<string>("FirstMidName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("FirstName");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -280,6 +470,45 @@ namespace ContosoUniversity.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ContosoUniversity.Domain.Models.Course", b =>
+                {
+                    b.HasOne("ContosoUniversity.Domain.Models.Department", "Department")
+                        .WithMany("Courses")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Domain.Models.CourseAssignment", b =>
+                {
+                    b.HasOne("ContosoUniversity.Domain.Models.Course", "Course")
+                        .WithMany("CourseAssignments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ContosoUniversity.Domain.Models.Instructor", "Instructor")
+                        .WithMany("CourseAssignments")
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Instructor");
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Domain.Models.Department", b =>
+                {
+                    b.HasOne("ContosoUniversity.Domain.Models.Instructor", "Administrator")
+                        .WithMany()
+                        .HasForeignKey("InstructorId");
+
+                    b.Navigation("Administrator");
+                });
+
             modelBuilder.Entity("ContosoUniversity.Domain.Models.Enrollment", b =>
                 {
                     b.HasOne("ContosoUniversity.Domain.Models.Course", "Course")
@@ -299,9 +528,35 @@ namespace ContosoUniversity.Data.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("ContosoUniversity.Domain.Models.OfficeAssignment", b =>
+                {
+                    b.HasOne("ContosoUniversity.Domain.Models.Instructor", "Instructor")
+                        .WithOne("OfficeAssignment")
+                        .HasForeignKey("ContosoUniversity.Domain.Models.OfficeAssignment", "InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Instructor");
+                });
+
             modelBuilder.Entity("ContosoUniversity.Domain.Models.Course", b =>
                 {
+                    b.Navigation("CourseAssignments");
+
                     b.Navigation("Enrollments");
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Domain.Models.Department", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Domain.Models.Instructor", b =>
+                {
+                    b.Navigation("CourseAssignments");
+
+                    b.Navigation("OfficeAssignment")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ContosoUniversity.Domain.Models.Student", b =>
