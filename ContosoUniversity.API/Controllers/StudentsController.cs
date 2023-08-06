@@ -21,15 +21,18 @@ public class StudentsController : ControllerBase
 
 
 	[HttpGet]
-	public async Task<ActionResult<ResponseFormat<IEnumerable<StudentDTO>>>> GetStudents()
+	public async Task<ActionResult<ResponseFormat<StudentsResponseDTO>>> GetStudents([FromQuery] int page, [FromQuery] string? sortOrder, [FromQuery] string? searchName)
 	{
-		var response = new ResponseFormat<IEnumerable<StudentDTO>>
+
+
+		var response = new ResponseFormat<StudentsResponseDTO>
 		{
-			Data = await _studentRepository.GetStudents()
+			Data = await _studentRepository.GetStudents(page:page, sortOrder: sortOrder, searchName: searchName)
 		};
 
 		return Ok(response);
 	}
+
 
 
 	[HttpGet("{Id}")]
@@ -74,7 +77,7 @@ public class StudentsController : ControllerBase
 	[HttpDelete("{id}")]
 	public async Task<ActionResult> DeleteStudent(int id)
 	{
-		
+
 		await _studentRepository.DeleteSudent(id);
 
 		return NoContent();

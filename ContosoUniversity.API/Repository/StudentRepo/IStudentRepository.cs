@@ -5,6 +5,7 @@ namespace ContosoUniversity.API.Repository.StudentRepo;
 public interface IStudentRepository
 {
 	Task<IEnumerable<StudentDTO>> GetStudents();
+	Task<StudentsResponseDTO> GetStudents(int page, string? sortOrder, string? searchName);
 	Task<StudentDetailDTO> GetStudent(int id);
 
 	Task<StudentDTO> CreateStudent(CreateUpdateStudentDTO student);
