@@ -1,6 +1,10 @@
 using ContosoUniversity.API.Configurations;
 using ContosoUniversity.Data.Context;
+using ContosoUniversity.Shared.Common;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using ContosoUniversity.API.Repository.StudentRepo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ContosoUniversityDbContext>(options =>
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.AddFluentValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
+
+
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+
+
 
 var app = builder.Build();
 

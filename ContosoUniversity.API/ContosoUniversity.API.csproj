@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9">
       <PrivateAssets>all</PrivateAssets>
@@ -19,10 +21,6 @@
     <ProjectReference Include="..\ContosoUniversity.Data\ContosoUniversity.Data.csproj" />
     <ProjectReference Include="..\ContosoUniversity.Domain\ContosoUniversity.Domain.csproj" />
     <ProjectReference Include="..\ContosoUniversity.Shared\ContosoUniversity.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
