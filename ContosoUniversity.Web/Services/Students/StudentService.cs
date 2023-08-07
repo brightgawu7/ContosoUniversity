@@ -19,19 +19,24 @@ public class StudentService:IStudentService
 		_studentState = studentState;
 	}
 
-	public Task CreateStudent(CreateUpdateStudentDTO student)
+	public async Task CreateStudent(CreateUpdateStudentDTO student)
 	{
-		throw new NotImplementedException();
+		await _http.PostAsJsonAsync("api/students", student);
+		_navigationManager.NavigateTo("/Students");
 	}
 
-	public Task DeleteStudent(int id)
+	public async Task DeleteStudent(int id)
 	{
-		throw new NotImplementedException();
+		await _http.DeleteAsync($"api/students/{id}");
+		_navigationManager.NavigateTo("/Students");
 	}
 
-	public Task<StudentDetailDTO> GetStudent(int Id)
+	public async Task<StudentDetailDTO> GetStudent(int Id)
 	{
-		throw new NotImplementedException();
+		var result = await _http.GetFromJsonAsync<ResponseFormat<StudentDetailDTO>>($"api/students/{Id}");
+		if (result != null && result.Status == "success")
+			return result.Data;
+		throw new Exception("Hero not found!");
 	}
 
 	public async Task GetStudents(string? name = null)
@@ -42,8 +47,9 @@ public class StudentService:IStudentService
 
 	}
 
-	public Task UpdateStudent(CreateUpdateStudentDTO student, int id)
+	public async Task UpdateStudent(CreateUpdateStudentDTO student, int id)
 	{
-		throw new NotImplementedException();
+		await _http.PutAsJsonAsync($"api/students/{id}", student);
+		_navigationManager.NavigateTo("/Students");
 	}
 }

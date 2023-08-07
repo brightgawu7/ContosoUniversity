@@ -1,0 +1,17 @@
+﻿@page "/Students/Details/{Id:int}"
+@using ContosoUniversity.Shared.DTOs.Students;
+@inject IStudentService studentService
+
+@code {
+	StudentDetailDTO? student;
+
+
+	[Parameter, EditorRequired]
+	public int Id { get; set; }
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		student = await studentService.GetStudent(Id);
+	}
+}

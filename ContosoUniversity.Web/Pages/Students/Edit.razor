@@ -14,4 +14,13 @@
 	[Parameter]
 	public int Id { get; set; }
 	CreateUpdateStudentDTO editStudentModel = new();
+
+	protected override async Task OnParametersSetAsync()
+	{
+		StudentDetailDTO _student = await studentService.GetStudent(Id);
+
+		editStudentModel.LastName = _student.LastName;
+		editStudentModel.FirstMidName = _student.FirstMidName;
+		editStudentModel.EnrollmentDate = _student.EnrollmentDate;
+	}
 }
