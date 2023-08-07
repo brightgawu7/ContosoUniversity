@@ -1,8 +1,6 @@
-﻿using ContosoUniversity.API.Common;
-using ContosoUniversity.API.Repository.StudentRepo;
-using ContosoUniversity.Domain.Models;
-using ContosoUniversity.Shared.DTOs;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using ContosoUniversity.API.Services.StudentService;
+using ContosoUniversity.Shared.DTOs.Students;
+using ContosoUniversity.Shared.ResponseFormats;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContosoUniversity.API.Controllers;
@@ -12,12 +10,14 @@ namespace ContosoUniversity.API.Controllers;
 [ApiController]
 public class StudentsController : ControllerBase
 {
-	private readonly IStudentRepository _studentRepository;
 
-	public StudentsController(IStudentRepository studentRepository)
+	private readonly IStudentService _studentService;
+	public StudentsController( IStudentService studentService)
 	{
-		_studentRepository = studentRepository;
+		_studentService = studentService;
 	}
+
+
 
 
 	[HttpGet]
@@ -25,9 +25,11 @@ public class StudentsController : ControllerBase
 	{
 
 
+
+
 		var response = new ResponseFormat<StudentsResponseDTO>
 		{
-			Data = await _studentRepository.GetStudents(page:page, sortOrder: sortOrder, searchName: searchName)
+			Data = await _studentService.GetStudentsAsync(page: page, sortOrder: sortOrder, searchName: searchName)
 		};
 
 		return Ok(response);
@@ -40,7 +42,7 @@ public class StudentsController : ControllerBase
 	{
 		var response = new ResponseFormat<StudentDetailDTO>
 		{
-			Data = await _studentRepository.GetStudent(id: Id)
+			Data = await _studentService.GetStudentAync(id: Id)
 		};
 
 		return Ok(response);
@@ -49,25 +51,25 @@ public class StudentsController : ControllerBase
 
 
 	[HttpPost]
-	public async Task<ActionResult<ResponseFormat<StudentDTO>>> CreateStudent([FromBody] CreateUpdateStudentDTO student)
+	public async Task<ActionResult<ResponseFormat<StudentsDTO>>> CreateStudent([FromBody] CreateUpdateStudentDTO student)
 	{
 
 
-		var response = new ResponseFormat<StudentDTO>
+		var response = new ResponseFormat<StudentsDTO>
 		{
-			Data = await _studentRepository.CreateStudent(student: student)
+			Data = await _studentService.CreateStudentAsync(student: student)
 		};
 
 		return Ok(response);
 	}
 
 	[HttpPut("{id}")]
-	public async Task<ActionResult<StudentDTO>> UpdateStudent([FromRoute] int id, [FromBody] CreateUpdateStudentDTO student)
+	public async Task<ActionResult<StudentsDTO>> UpdateStudent([FromRoute] int id, [FromBody] CreateUpdateStudentDTO student)
 	{
 
-		var response = new ResponseFormat<StudentDTO>
+		var response = new ResponseFormat<StudentsDTO>
 		{
-			Data = await _studentRepository.UpdateStudent(id: id, student: student)
+			Data = await _studentService.UpdateStudentAsync(id: id, student: student)
 		};
 
 		return Ok(response);
@@ -78,7 +80,7 @@ public class StudentsController : ControllerBase
 	public async Task<ActionResult> DeleteStudent(int id)
 	{
 
-		await _studentRepository.DeleteSudent(id);
+		await _studentService.DeleteSudentAsync(id:id);
 
 		return NoContent();
 	}

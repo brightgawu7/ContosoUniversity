@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContosoUniversity.Domain", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContosoUniversity.Data", "ContosoUniversity.Data\ContosoUniversity.Data.csproj", "{2BEC79AB-6687-4E2F-838D-ED7C793B6637}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContosoUniversity.Web", "ContosoUniversity.Web\ContosoUniversity.Web.csproj", "{150E4D17-B0E8-47D3-A787-E88E427ECCA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContosoUniversity.Web", "ContosoUniversity.Web\ContosoUniversity.Web.csproj", "{150E4D17-B0E8-47D3-A787-E88E427ECCA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

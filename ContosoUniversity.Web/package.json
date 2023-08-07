@@ -1,0 +1,20 @@
+{
+    "name": "contosouniversity.web",
+    "version": "1.0.0",
+    "description": "",
+    "main": "tailwind.config.js",
+    "scripts": {
+        "css:build": "npx tailwindcss -i ./Styles/app.css -o ./wwwroot/css/styles.css --minify",
+        "css:watch": "npx tailwindcss -i ./Styles/app.css -o ./wwwroot/css/styles.css --minify --watch"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "tailwindcss": "^3.3.3"
+    },
+    "dependencies": {
+        "@tailwindcss/forms": "^0.5.4"
+    }
+    
+}

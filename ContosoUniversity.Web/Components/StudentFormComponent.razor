@@ -1,0 +1,42 @@
+﻿@using Blazored.FluentValidation
+@using ContosoUniversity.Shared.DTOs.Students;
+@inject IStudentService studentService
+
+<div>
+
+	<EditForm Model="@createStudentModel" OnValidSubmit="@HandleValidSubmit" class="w-[40%]">
+		<FluentValidationValidator />
+
+		<div>
+			<label for="company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
+			<input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Flowbite" required>
+		</div>
+	</EditForm>
+</div>
+
+
+@code {
+	CreateUpdateStudentDTO createStudentModel = new();
+	[Parameter]
+	public int Id { get; set; }
+	[Parameter]
+	public CreateUpdateStudentDTO? student { get; set; }
+
+
+	protected override void OnParametersSet()
+	{
+		createStudentModel = student ?? new();
+	}
+
+	private async void HandleValidSubmit()
+	{
+		if (Id == 0)
+		{
+			await studentService.CreateStudent(createStudentModel);
+		}
+		else
+		{
+			await studentService.UpdateStudent(createStudentModel, Id);
+		}
+	}
+}

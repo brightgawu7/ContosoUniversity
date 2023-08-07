@@ -1,4 +1,4 @@
-﻿using ContosoUniversity.Shared.DTOs;
+﻿using ContosoUniversity.Shared.DTOs.Students;
 using FluentValidation;
 
 namespace ContosoUniversity.Shared.Validation;

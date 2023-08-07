@@ -1,0 +1,17 @@
+﻿@page "/Students/Edit/{Id:int}"
+@using ContosoUniversity.Shared.DTOs.Students;
+@inject IStudentService studentService
+
+
+<h2 class="text-4xl my-4 font-medium">Student</h2>
+<h2 class="text-2xl my-2 font-medium">Edit</h2>
+
+
+<StudentFormComponent student="@editStudentModel" Id="@Id" />
+
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+	CreateUpdateStudentDTO editStudentModel = new();
+}

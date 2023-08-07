@@ -4,7 +4,8 @@ using ContosoUniversity.Shared.Common;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using ContosoUniversity.API.Repository.StudentRepo;
+using ContosoUniversity.Data.Core.Configuration;
+using ContosoUniversity.API.Services.StudentService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,18 +22,19 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddFluentValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
+builder.Services.AddCors(policy => policy.AddPolicy("CorsPolicy", opts => opts.AllowAnyOrigin().AllowAnyHeader().AllowAnyHeader()));
 
 
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();	
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
-
+app.UseCors("CorsPolicy");
 app.AddGlobalErrorHandler();
 
 
